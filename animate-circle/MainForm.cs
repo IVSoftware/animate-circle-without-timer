@@ -9,11 +9,29 @@ namespace animate_circle
         public MainForm()
         {
             InitializeComponent();
-            pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
-            //GenerateAnimationImages();
-            // Process.Start("explorer.exe", ImageFolder);
-        }
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
+            string[] playerMovements = Directory.GetFiles(ImageFolder, "*.png");
+
+            foreach (string file in playerMovements)
+            {
+                string b4 = file;
+                string ftr = file.Replace("e.0", "e.");
+                ftr = ftr.Replace("..", ".0.");
+                if(b4 != ftr)
+                {
+                    File.Move(b4, ftr, true);
+                }                
+            }
+            
+            playerMovements = Directory
+                .GetFiles(ImageFolder, "*.png");
+
+            for(int i=0; i<playerMovements.Length; i++)
+            {
+                Debug.WriteLine($"Index {i} - {Path.GetFileName(playerMovements[i])}");
+            }
+        }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -23,7 +41,6 @@ namespace animate_circle
                 .ToArray();
             _ = runAnimation(rate: TimeSpan.FromMilliseconds(20));
         }
-
         private async Task runAnimation(TimeSpan rate)
         {
             int length = Buffer.Length;
@@ -39,49 +56,8 @@ namespace animate_circle
 
         Bitmap[] Buffer { get; set; }
         string ImageFolder { get; } = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            Assembly.GetEntryAssembly().GetName().Name
+            AppDomain.CurrentDomain.BaseDirectory,
+            "Images"
         );
-        private int imageCount = 50; 
-        private int animationFrames = 50;
-        private void GenerateAnimationImages()
-        {
-            if (!Directory.Exists(ImageFolder))
-            {
-                Directory.CreateDirectory(ImageFolder);
-            }
-
-            for (int i = 0; i < imageCount; i++)
-            {
-                using (Bitmap image = new Bitmap(400, 400))
-                {
-                    using (Graphics graphics = Graphics.FromImage(image))
-                    {
-                        // Calculate the circle parameters
-                        int circleSize = 100 + (i * 6); // Gradually increase size
-                        int xOffset = (i * 4); // Gradually shift right
-                        int yOffset = (400 - circleSize) / 2;
-
-                        int redValue = 255 - (i * (255 / animationFrames)); // Gradually decrease red
-                        int blueValue = i * (255 / animationFrames); // Gradually increase blue
-                        Color circleColor = Color.FromArgb(255, redValue, 0, blueValue);
-                        Pen pen = new Pen(circleColor, 5);
-
-                        // Draw the circle
-                        graphics.DrawEllipse(pen, xOffset, yOffset, circleSize, circleSize);
-                    }
-
-                    // Save the image
-                    string imagePath = Path.Combine(ImageFolder, $"circle.{i:D2}.png");
-                    image.Save(imagePath, ImageFormat.Png);
-                }
-            }
-        }
-
-    }
-
-    class PictureBoxEx : PictureBox
-    {
-        public PictureBoxEx () => DoubleBuffered = true;
     }
 }

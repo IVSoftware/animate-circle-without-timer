@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pictureBox = new PictureBoxEx();
+            pictureBox = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -50,13 +50,13 @@
             Controls.Add(pictureBox);
             Name = "MainForm";
             Padding = new Padding(10);
-            Text = "Form1";
+            Text = "Main Form";
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private PictureBoxEx pictureBox;
+        private PictureBox pictureBox;
     }
 }
