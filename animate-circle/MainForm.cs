@@ -10,27 +10,6 @@ namespace animate_circle
         {
             InitializeComponent();
             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-
-            string[] playerMovements = Directory.GetFiles(ImageFolder, "*.png");
-
-            foreach (string file in playerMovements)
-            {
-                string b4 = file;
-                string ftr = file.Replace("e.0", "e.");
-                ftr = ftr.Replace("..", ".0.");
-                if(b4 != ftr)
-                {
-                    File.Move(b4, ftr, true);
-                }                
-            }
-            
-            playerMovements = Directory
-                .GetFiles(ImageFolder, "*.png");
-
-            for(int i=0; i<playerMovements.Length; i++)
-            {
-                Debug.WriteLine($"Index {i} - {Path.GetFileName(playerMovements[i])}");
-            }
         }
         protected override void OnLoad(EventArgs e)
         {
