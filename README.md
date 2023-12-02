@@ -2,7 +2,7 @@
 
 One issue I see is that you feel that you've "loaded" the image after retrieving its file name. Not the same thing! The way you have it, the image has to come off of disk every time you draw it. So the first thing would be to buffer the images into memory. _Really_ load them. In advance.
 
-There are a lot of was to do the timing, so this is just my perspective. But I would ditch the `Timer` entirely. It's firing regular intervals, for you to do "some work" where you really don't know how much time it will take. 
+There are a lot of ways to do the timing, so this is just my perspective. But I would ditch the `Timer` entirely. It's firing regular intervals, for you to do "some work" where you really don't know how much time it will take. 
 
 The loop show below will draw the item (even if it takes a year) and once it's drawn, it will wait "some interval" before starting to draw the next frame.
 
